@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ADUDU GANK | SUPERSUS</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#0b1220;
+  --card:rgba(255,255,255,0.06);
+  --stroke:rgba(255,255,255,0.08);
+  --text:#e5e7eb;
+  --muted:#9ca3af;
+  --accent:#38bdf8;
+  --accent2:#6366f1;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+  background: radial-gradient(circle at top, #0b1220, #0f1a33);
+  color:var(--text);
+  height:100vh;
+  overflow:hidden;
+}
+
+/* BACKGROUND */
+canvas{
+  position:fixed;
+  inset:0;
+  z-index:0;
+}
+
+/* HEADER */
+header{
+  position:relative;
+  z-index:2;
+  height:65px;
+  display:flex;
+  align-items:center;
+  gap:15px;
+  padding:0 18px;
+  background:rgba(15,27,51,0.75);
+  backdrop-filter: blur(14px);
+  border-bottom:1px solid var(--stroke);
+}
+
+header h1{
+  font-size:13px;
+  font-weight:700;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+#clock{
+  margin-left:auto;
+  font-size:12px;
+  color:var(--muted);
+}
+
+/* HAMBURGER */
+.hamburger{
+  width:38px;
+  cursor:pointer;
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+}
+
+.hamburger div{
+  height:3px;
+  background:var(--text);
+  border-radius:10px;
+}
+
+/* LAYOUT */
+.container{
+  position:relative;
+  z-index:2;
+  display:flex;
+  height:calc(100vh - 65px);
+}
+
+/* SIDEBAR (SMOOTH VERSION) */
+.sidebar{
+  width:260px;
+  position:absolute;
+  height:100%;
+  left:0;
+  top:0;
+
+  background:rgba(15,27,51,0.6);
+  backdrop-filter: blur(18px);
+  border-right:1px solid var(--stroke);
+
+  padding:20px;
+
+  transform:translateX(-100%);
+  opacity:0;
+
+  transition: all 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: 15px 0 40px rgba(0,0,0,0.4);
+}
+
+.sidebar.active{
+  transform:translateX(0);
+  opacity:1;
+}
+
+/* MENU */
+.menu button{
+  width:100%;
+  padding:12px;
+  margin-bottom:10px;
+  border:none;
+  border-radius:10px;
+  background:var(--card);
+  color:var(--text);
+  text-align:left;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+.menu button:hover{
+  background:rgba(56,189,248,0.15);
+  transform:translateX(5px);
+}
+
+/* CONTENT */
+.content{
+  flex:1;
+  padding:25px;
+  overflow-y:auto;
+}
+
+/* HERO GROUP */
+.group-hero{
+  text-align:center;
+  margin:25px 0;
+}
+
+.group-hero img{
+  width:110px;
+  height:110px;
+  border-radius:50%;
+  border:3px solid var(--accent);
+  box-shadow:0 0 25px rgba(56,189,248,0.4);
+}
+
+.group-hero h2{
+  margin-top:10px;
+  font-size:18px;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.group-hero p{
+  font-size:12px;
+  color:var(--muted);
+}
+
+/* STATS */
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin:20px 0;
+}
+
+.stat-card{
+  padding:15px;
+  border-radius:14px;
+  text-align:center;
+  background:linear-gradient(135deg,#38bdf8,#6366f1);
+  font-weight:600;
+}
+
+/* GRID */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:12px;
+}
+
+.card{
+  padding:14px;
+  border-radius:14px;
+  border:1px solid var(--stroke);
+  cursor:pointer;
+  transition:0.25s;
+  background:linear-gradient(135deg,#38bdf8,#6366f1);
+}
+
+.card:hover{
+  transform:translateY(-5px) scale(1.03);
+}
+
+/* FOOTER */
+footer{
+  position:relative;
+  z-index:2;
+  text-align:center;
+  padding:14px;
+  font-size:11px;
+  color:var(--muted);
+  background:rgba(15,27,51,0.7);
+  backdrop-filter:blur(10px);
+  border-top:1px solid var(--stroke);
+}
+
+/* TOAST */
+.toast{
+  position:fixed;
+  bottom:80px;
+  right:20px;
+  background:rgba(56,189,248,0.2);
+  border:1px solid var(--stroke);
+  padding:10px 15px;
+  border-radius:10px;
+  font-size:12px;
+  display:none;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="bg"></canvas>
+
+<header>
+  <div class="hamburger" onclick="toggleSidebar()">
+    <div></div><div></div><div></div>
+  </div>
+
+  <h1>ADUDU GANK | SUPERSUS</h1>
+  <div id="clock"></div>
+</header>
+
+<div class="container">
+
+  <div class="sidebar" id="sidebar">
+    <div class="menu">
+      <button onclick="render('dashboard')">Dashboard</button>
+      <button onclick="render('member')" id="member">Member</button>
+    </div>
+  </div>
+
+  <div class="content" id="content"></div>
+
+</div>
+
+<div class="toast" id="toast">Welcome 🚀 ADUDU GANK</div>
+
+<footer>
+© 2026 ADUDU GANK | SUPERSUS • Infinity UI • Online Server
+</footer>
+<button id="musicBtn" style="
+position:fixed;
+bottom:90px;
+right:20px;
+z-index:9999;
+padding:10px 14px;
+border-radius:12px;
+border:1px solid rgba(255,255,255,0.2);
+background:rgba(56,189,248,0.2);
+color:white;
+backdrop-filter:blur(10px);
+cursor:pointer;
+">
+🎵 Music
+</button>
+
+<audio id="bgm" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+<script>
+const admins=['MAYY','MIKIEE','REYY','VYN'];
+const members=['ACA','ACI','ARIKA','BULAN','BUNGA','DAPPA','EKWAR','EXCELL','JIMMY','KANAA','LIA','MIRZA','MEYY','MOY','NISA','REJI','REXYY','REZY','RIFKA','VAN BJ','WANN','YANZZ'];
+const all=[...admins,...members];
+
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('active');
+}
+
+function goToProfile(n){
+  window.location.href=n.replace(/\s+/g,'_')+'.html';
+}
+
+function render(page){
+  let c=document.getElementById('content');
+
+  if(page==='dashboard'){
+    c.innerHTML=`
+      <div class='group-hero'>
+        <img src='ppgrup.png'>
+        <h2>ADUDU GANK</h2>
+        <p>${all.length} Members Active</p>
+      </div>
+
+      <div class='stats'>
+        <div class='stat-card'>TOTAL<br>${all.length}</div>
+        <div class='stat-card'>ADMIN<br>${admins.length}</div>
+        
+        <div class='stat-card'>MEMBER<br>${members.length}</div>
+      </div>
+<center><h3>Random Member</h3><br></center>
+      <div class='grid'>
+      
+        ${all.slice(0,8).map(n=>`
+          <div class='card' onclick="goToProfile('${n}')">${n}</div>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  if(page==='member'){
+    c.innerHTML=`
+
+      <div class='section'>👑 ADMIN</div><br>
+      <div class='grid'>
+        ${admins.map(n=>`
+          <div class='card' style="background:linear-gradient(135deg,#f59e0b,#ef4444)" onclick="goToProfile('${n}')">${n}</div>
+        `).join('')}
+      </div><br>
+
+      <div class='section'>👤 ANGGOTA</div><br>
+      <div class='grid'>
+        ${members.map(n=>`
+          <div class='card' style="background:linear-gradient(135deg,#34d399,#38bdf8)" onclick="goToProfile('${n}')">${n}</div>
+        `).join('')}
+      </div>
+      
+    `;
+  }
+}
+
+render('dashboard');
+
+/* CLOCK */
+setInterval(()=>{
+  document.getElementById('clock').innerText=new Date().toLocaleTimeString();
+},1000);
+
+/* PARTICLE */
+const canvas=document.getElementById('bg');
+const ctx=canvas.getContext('2d');
+canvas.width=innerWidth;
+canvas.height=innerHeight;
+
+let p=[];
+for(let i=0;i<60;i++){
+  p.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*2});
+}
+
+function anim(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle="rgba(56,189,248,0.5)";
+  p.forEach(e=>{
+    ctx.beginPath();
+    ctx.arc(e.x,e.y,e.r,0,Math.PI*2);
+    ctx.fill();
+    e.y+=0.3;
+    if(e.y>canvas.height)e.y=0;
+  });
+  requestAnimationFrame(anim);
+}
+anim();
+
+/* TOAST */
+setTimeout(()=>{
+  document.getElementById('toast').style.display='block';
+  setTimeout(()=>document.getElementById('toast').style.display='none',3000);
+},1000);
+
+function anim(){
+  ctx.clearRect(0,0,c.width,c.height);
+  ctx.fillStyle="rgba(56,189,248,.5)";
+  p.forEach(e=>{
+    ctx.beginPath();
+    ctx.arc(e.x,e.y,e.r,0,Math.PI*2);
+    ctx.fill();
+    e.y+=0.3;
+    if(e.y>c.height)e.y=0;
+  });
+  requestAnimationFrame(anim);
+}
+anim();
+</script>
+<script>
+const audio = document.getElementById("bgm");
+const btn = document.getElementById("musicBtn");
+
+// channel biar semua halaman sinkron
+const bc = new BroadcastChannel("adudu_music");
+
+// ambil state terakhir
+let isPlaying = localStorage.getItem("music") === "1";
+let time = parseFloat(localStorage.getItem("music_time") || "0");
+
+audio.currentTime = time;
+
+function updateUI(){
+  btn.innerText = isPlaying ? "⏸ Music" : "🎵 Music";
+}
+
+function playMusic(){
+  audio.play();
+  isPlaying = true;
+  localStorage.setItem("music", "1");
+  bc.postMessage({type:"play"});
+  updateUI();
+}
+
+function pauseMusic(){
+  audio.pause();
+  isPlaying = false;
+  localStorage.setItem("music", "0");
+  bc.postMessage({type:"pause"});
+  updateUI();
+}
+
+btn.onclick = () => {
+  if(isPlaying) pauseMusic();
+  else playMusic();
+};
+
+// simpan waktu biar ga reset
+setInterval(() => {
+  localStorage.setItem("music_time", audio.currentTime);
+}, 1000);
+
+// sync antar tab/file
+bc.onmessage = (e) => {
+  if(e.data.type === "play"){
+    audio.play();
+    isPlaying = true;
+  }
+  if(e.data.type === "pause"){
+    audio.pause();
+    isPlaying = false;
+  }
+  updateUI();
+};
+
+// auto restore state
+window.onload = () => {
+  updateUI();
+  if(isPlaying){
+    audio.play();
+  }
+};
+
+function getPage(){
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get('page') || 'dashboard';
+}
+
+render(getPage());
+</script>
+</body>
+</html>

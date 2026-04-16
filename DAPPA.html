@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>DAPPA | ADUDU GANK</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#0b1220;
+  --card:rgba(255,255,255,0.06);
+  --stroke:rgba(255,255,255,0.08);
+  --text:#e5e7eb;
+  --muted:#9ca3af;
+  --accent:#38bdf8;
+  --accent2:#6366f1;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+  background: radial-gradient(circle at top, #070b14, #0f1a33);
+  color:var(--text);
+  min-height:100vh;
+  overflow:hidden;
+}
+
+/* PARTICLE BG */
+canvas{
+  position:fixed;
+  inset:0;
+  z-index:0;
+}
+
+/* CONTAINER */
+.container{
+  position:relative;
+  z-index:2;
+  max-width:900px;
+  margin:auto;
+  padding:25px;
+  animation:fadeIn 0.8s ease;
+}
+
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(10px)}
+  to{opacity:1; transform:translateY(0)}
+}
+
+/* HEADER */
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.title{
+  font-size:18px;
+  font-weight:800;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.back{
+  padding:8px 14px;
+  background:rgba(255,255,255,0.05);
+  border:1px solid var(--stroke);
+  border-radius:10px;
+  color:var(--text);
+  text-decoration:none;
+  transition:0.3s;
+}
+
+.back:hover{
+  transform:translateY(-3px);
+  background:rgba(56,189,248,0.12);
+}
+
+/* CARD */
+.card{
+  position:relative;
+  background:rgba(255,255,255,0.04);
+  border:1px solid var(--stroke);
+  border-radius:22px;
+  padding:25px;
+  backdrop-filter: blur(16px);
+  box-shadow:0 20px 40px rgba(0,0,0,0.35);
+  overflow:hidden;
+  animation:float 5s ease-in-out infinite;
+}
+
+/* glow layer */
+.card::before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  background:linear-gradient(120deg,var(--accent),var(--accent2),#22d3ee);
+  opacity:0.12;
+  filter:blur(30px);
+}
+
+/* float anim */
+@keyframes float{
+  0%,100%{transform:translateY(0px)}
+  50%{transform:translateY(-6px)}
+}
+
+/* PROFILE HEADER */
+.profile-header{
+  display:flex;
+  gap:18px;
+  align-items:center;
+  margin-bottom:18px;
+  position:relative;
+  z-index:2;
+}
+
+.profile-header img{
+  width:100px;
+  height:100px;
+  border-radius:50%;
+  border:3px solid var(--accent);
+  box-shadow:0 0 25px rgba(56,189,248,0.4);
+  object-fit:cover;
+}
+
+.name{
+  font-size:24px;
+  font-weight:800;
+}
+
+.badge{
+  display:inline-block;
+  margin-top:6px;
+  padding:5px 12px;
+  font-size:11px;
+  border-radius:20px;
+  background:rgba(56,189,248,0.15);
+  color:var(--accent);
+  border:1px solid rgba(56,189,248,0.25);
+  letter-spacing:0.5px;
+  box-shadow:0 0 10px rgba(56,189,248,0.15);
+}
+
+/* LINE */
+.line{
+  border-top:1px dashed rgba(255,255,255,0.15);
+  margin:18px 0;
+}
+
+/* TEXT */
+.section-title{
+  font-size:12px;
+  color:var(--muted);
+  letter-spacing:2px;
+  margin-bottom:12px;
+}
+
+.info{
+  font-size:14px;
+  line-height:2;
+  position:relative;
+  z-index:2;
+}
+
+.row{
+  display:flex;
+  padding:4px 0;
+}
+
+.label{
+  width:180px;
+  color:var(--muted);
+}
+
+/* IMAGE */
+.photo-box{
+  margin-top:12px;
+  border-radius:16px;
+  overflow:hidden;
+  border:1px solid var(--stroke);
+  position:relative;
+  z-index:2;
+}
+
+.photo-box img{
+  width:100%;
+  display:block;
+  transition:0.4s;
+}
+
+.photo-box img:hover{
+  transform:scale(1.05);
+}
+
+/* FOOTER */
+.footer{
+  text-align:center;
+  margin-top:22px;
+  font-size:11px;
+  color:var(--muted);
+  position:relative;
+  z-index:2;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="bg"></canvas>
+
+<div class="container">
+
+<header>
+  <div class="title">PROFILE MEMBER</div>
+ <a class="back" href="ss.html?page=member">← Kembali</a>
+</header>
+
+<div class="card">
+
+  <div class="profile-header">
+    <img src="ppdappa.jpg" />
+    <div>
+      <div class="name">DAPPA</div>
+      <div class="badge">ANGGOTA - ADUDU GANK</div>
+    </div>
+  </div>
+
+  <div class="line"></div>
+
+  <div class="section-title">📌 FORMAT PERKENALAN</div>
+
+ <div class="info">
+  <div class="row"><span class="label">👤 Nama :</span> Dappa</div>
+
+  <div class="row"><span class="label">🎮 Nickname :</span> DappaSukaTuru</div>
+
+  <div class="row"><span class="label">📍 Asal Kota :</span> Kalimantan</div>
+
+  <div class="row"><span class="label">🎂 Umur :</span> 19</div>
+
+  <div class="row"><span class="label">⚡ Role Favorit :</span> Phantom</div>
+
+  <div class="row"><span class="label">💬 Motto :</span> Jngan lupa bangun</div>
+</div>
+
+  <div class="line"></div>
+
+  <div class="section-title">📸 FOTO AKUN</div>
+
+  <div class="photo-box">
+    <img src="dappa.jpg"/>
+  </div>
+
+</div>
+
+<div class="footer">
+© 2026 ADUDU GANK • Infinity Profile System • Active UI
+</div>
+
+</div>
+<button id="musicBtn" style="
+position:fixed;
+bottom:90px;
+right:20px;
+z-index:9999;
+padding:10px 14px;
+border-radius:12px;
+border:1px solid rgba(255,255,255,0.2);
+background:rgba(56,189,248,0.2);
+color:white;
+backdrop-filter:blur(10px);
+cursor:pointer;
+">
+🎵 Music
+</button>
+
+<audio id="bgm" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+<script>
+/* PARTICLE (SAMA KAYAK DASHBOARD) */
+const canvas = document.getElementById('bg');
+const ctx = canvas.getContext('2d');
+
+canvas.width = innerWidth;
+canvas.height = innerHeight;
+
+let p = [];
+
+for(let i=0;i<60;i++){
+  p.push({
+    x:Math.random()*canvas.width,
+    y:Math.random()*canvas.height,
+    r:Math.random()*2
+  });
+}
+
+function anim(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle="rgba(56,189,248,0.5)";
+
+  p.forEach(e=>{
+    ctx.beginPath();
+    ctx.arc(e.x,e.y,e.r,0,Math.PI*2);
+    ctx.fill();
+
+    e.y += 0.3;
+    if(e.y > canvas.height) e.y = 0;
+  });
+
+  requestAnimationFrame(anim);
+}
+
+anim();
+</script>
+<script>
+const audio = document.getElementById("bgm");
+const btn = document.getElementById("musicBtn");
+
+// channel biar semua halaman sinkron
+const bc = new BroadcastChannel("adudu_music");
+
+// ambil state terakhir
+let isPlaying = localStorage.getItem("music") === "1";
+let time = parseFloat(localStorage.getItem("music_time") || "0");
+
+audio.currentTime = time;
+
+function updateUI(){
+  btn.innerText = isPlaying ? "⏸ Music" : "🎵 Music";
+}
+
+function playMusic(){
+  audio.play();
+  isPlaying = true;
+  localStorage.setItem("music", "1");
+  bc.postMessage({type:"play"});
+  updateUI();
+}
+
+function pauseMusic(){
+  audio.pause();
+  isPlaying = false;
+  localStorage.setItem("music", "0");
+  bc.postMessage({type:"pause"});
+  updateUI();
+}
+
+btn.onclick = () => {
+  if(isPlaying) pauseMusic();
+  else playMusic();
+};
+
+// simpan waktu biar ga reset
+setInterval(() => {
+  localStorage.setItem("music_time", audio.currentTime);
+}, 1000);
+
+// sync antar tab/file
+bc.onmessage = (e) => {
+  if(e.data.type === "play"){
+    audio.play();
+    isPlaying = true;
+  }
+  if(e.data.type === "pause"){
+    audio.pause();
+    isPlaying = false;
+  }
+  updateUI();
+};
+
+// auto restore state
+window.onload = () => {
+  updateUI();
+  if(isPlaying){
+    audio.play();
+  }
+};
+</script>
+</body>
+</html>
